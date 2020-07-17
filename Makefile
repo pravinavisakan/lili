@@ -8,7 +8,8 @@ CXXFLAGS += `sdl2-config --cflags`
 CXXFLAGS += -Wall -Wempty-body -Werror -Werror=maybe-uninitialized -Warray-bounds
 CXXFLAGS += -g -lefence
 
-LDFLAGS += `sdl2-config --libs` -lSDL2_mixer -lSDL2_image -lSDL2_ttf -lm
+BONUS_LD_FLAGS = -lSDL2_mixer -lSDL2_image -lSDL2_ttf
+LDFLAGS += `sdl2-config --libs` -lGL -lGLEW -lm 
 
 SEARCHPATH += src
 SEARCHPATH += include
