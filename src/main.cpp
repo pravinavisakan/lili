@@ -1,5 +1,3 @@
-//#include <SDL2/SDL.h>
-//#include <iostream>
 #include "../include/main.h"
 
 int main(int argc, char *argv[]){
