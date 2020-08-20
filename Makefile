@@ -1,6 +1,6 @@
 OUTDIR = bin
 
-PROG = platformer
+PROG = game 
 
 CC = g++
 
