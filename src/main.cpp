@@ -112,7 +112,6 @@ bool setupBuffers(){
         
         positions = readFileIntoBuffer("data/positions.txt");
         colors = readFileIntoBuffer("data/colors.txt");
-
         
         // Generate and assign two Vertex Buffer Objects to our handle
 	glGenBuffers(2, vbo);
@@ -155,7 +154,7 @@ bool setupBuffers(){
 }
 
 void setUpMatrices(){
-        glm::mat4 model = glm::translate( glm::mat4(1.0f), glm::vec3( 3, 1, 5) );
+        glm::mat4 model = glm::translate( glm::mat4(1.0f), glm::vec3( 0, 0, 0) );
          
         glm::mat4 view = glm::lookAt
         (
@@ -185,9 +184,12 @@ void setUpMatrices(){
 void render(){
         //grey background
         glClearColor(0.5, 0.5, 0.5, 1.0);
-	glClear(GL_COLOR_BUFFER_BIT);
+        glEnable(GL_DEPTH_TEST);
+        glDepthFunc(GL_LEQUAL);
+	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
         //enable colors
+        glEnableVertexAttribArray(positionAttributeIndex);
         glEnableVertexAttribArray(colorAttributeIndex);
 
         glDrawArrays(GL_TRIANGLES, 0, positions.size()/3);
