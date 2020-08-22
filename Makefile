@@ -36,3 +36,7 @@ $(OUTDIR)/%.o: %.cpp %.h
 # cleaning everything that can be automatically recreated with "make".
 clean:
 	$(RM) -rf $(OUTDIR) $(PROG)
+
+# produce a binary that can be debugged with gdb and the like
+debug: $(OBJS)
+	$(CC) -g -o $@ $(OBJS) $(LDFLAGS)
