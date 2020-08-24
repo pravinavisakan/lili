@@ -1,8 +1,5 @@
-#include "../include/main.h"
-#include "../include/Shader.h"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <vector>
+#include "../demoSrc/cube.hpp"
+
 //#include <glm/mat4x4.hpp>
 //#include <glm/gtc/matrix_transform.hpp>
 
@@ -47,8 +44,9 @@ GLuint vbo[2], vao[1];
 //position and color data indices
 const uint32_t positionAttributeIndex = 0, colorAttributeIndex = 1;
 
-//shader loader reference
+//Library objects
 Shader shader;
+Camera camera(&shader);
 
 //initialize resources
 bool initialize(){
@@ -153,32 +151,6 @@ bool setupBuffers(){
         return true;
 }
 
-void setUpMatrices(){
-        glm::mat4 model = glm::translate( glm::mat4(1.0f), glm::vec3( 0, 0, 0) );
-         
-        glm::mat4 view = glm::lookAt
-        (
-            glm::vec3(0, 0,-5), // Camera is at ( 0, 0, -5), in World Space
-            glm::vec3(0, 0, 0), // And looks at the center
-            glm::vec3(0,-1, 0)  // Camera is upside-down
-        );
-         
-        glm::mat4 projection = glm::perspective
-        (
-            45.0f,              // 45º field of view
-            1920.0f / 1080.0f,  // 16:9 aspect ratio
-            0.1f,               // Only render what's 0.1 or more away from camera
-            100.0f              // Only render what's 100 or less away from camera
-        );
-         
-        glm::mat4 modelViewProjection = projection * view * model;
-
-        // Get the ID
-        int matrixID = glGetUniformLocation(shader.shaderProgram, "mvp");
-         
-        //Set the matrix
-        glUniformMatrix4fv(matrixID, 1, GL_FALSE, &modelViewProjection[0][0]);
-}
 
 //draw array data (temp)
 void render(){
@@ -199,7 +171,8 @@ void render(){
 
 // clean resources on exit
 void cleanup(){
-        
+
+ 
         shader.CleanUp();
 
         SDL_GL_DeleteContext(mainContext);
@@ -221,7 +194,8 @@ int main(int argc, char *argv[]){
         if(!setupBuffers())
                 return -1;
 
-        setUpMatrices();
+        //camera = Camera();
+        camera.setUpMatrices();
 
         //render square
         render();

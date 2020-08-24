@@ -18,7 +18,7 @@ OUTDIR = demos
 _PROG = cube
 PROG = $(patsubst %,$(OUTDIR)/%,$(_PROG))
 
-_OBJS += cube.o
+_OBJS += cube.o camera.o
 OBJS = $(patsubst %,$(COMPDIR)/%,$(_OBJS))
 
 # look for souces files in the following directories
@@ -44,8 +44,5 @@ $(COMPDIR)/%.o: %.cpp
 
 # cleaning everything that can be automatically recreated with "make".
 clean:
-	$(RM) -rf $(COMPDIR) $(PROG) 
+	$(RM) -rf $(COMPDIR) $(OUTDIR) 
 
-# produce a binary that can be debugged with gdb and the like
-#debug: $(OBJS)
-#	$(CC) -g -o $@ $(OBJS) $(LDFLAGS)
