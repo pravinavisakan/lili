@@ -37,5 +37,6 @@ private:
 };
 
 const double MOUSE_SENSITIVITY = 0.01;
+const float MOVEMENT_SPEED = 0.1;
 
 #endif /*CAMERA_H */

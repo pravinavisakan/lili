@@ -65,16 +65,16 @@ void Camera::handleInput(SDL_Event event) {
     if (event.type == SDL_KEYDOWN){
         switch (event.key.keysym.sym) {
             case SDLK_w:
-                this->cameraPosition += this->cameraDirection;
+                this->cameraPosition += MOVEMENT_SPEED*this->cameraDirection;
                 break;
             case SDLK_s:
-                this->cameraPosition -= this->cameraDirection;
+                this->cameraPosition -= MOVEMENT_SPEED*this->cameraDirection;
                 break;
             case SDLK_a:
-                this->cameraPosition -= rightward;
+                this->cameraPosition -= MOVEMENT_SPEED*rightward;
                 break;
             case SDLK_d:
-                this->cameraPosition += rightward;
+                this->cameraPosition += MOVEMENT_SPEED*rightward;
                 break;
             default:
                 break;
