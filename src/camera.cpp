@@ -21,6 +21,9 @@ Camera::Camera(Shader* shader) {
             0.1f,               // Only render what's 0.1 or more away from camera
             100.0f              // Only render what's 100 or less away from camera
     );
+
+    this->yaw = 0;
+    this->pitch = 0;
 }
 
 Camera::~Camera(){}
@@ -32,8 +35,8 @@ Camera::~Camera(){}
 void Camera::update(){
 
     //debug
-    std::cout << "Camera Position x: " << this->cameraPosition.x << " y: " << this->cameraPosition.y << " z: " << this->cameraPosition.z <<"\n";
-    std::cout << "Camera Target x: " << this->cameraDirection.x << " y: " << this->cameraDirection.y << " z: " << this->cameraDirection.z <<"\n";
+    //std::cout << "Camera Position x: " << this->cameraPosition.x << " y: " << this->cameraPosition.y << " z: " << this->cameraPosition.z <<"\n";
+    //std::cout << "Camera Target x: " << this->cameraDirection.x << " y: " << this->cameraDirection.y << " z: " << this->cameraDirection.z <<"\n";
 
     // calculate mvp
     glm::mat4 view = glm::lookAt
@@ -56,10 +59,8 @@ void Camera::update(){
 void Camera::handleInput(SDL_Event event) {
 
     //process translation
-    //glm::vec3 translationVec(0.0f);
-    //glm::vec3 cameraDirection = this->cameraTarget - this->cameraPosition ;
-    glm::vec3 rightward = glm::normalize(glm::cross(this->cameraDirection, this->cameraUp));
 
+    glm::vec3 rightward = glm::normalize(glm::cross(this->cameraDirection, this->cameraUp));
     //check for a keydown event
     if (event.type == SDL_KEYDOWN){
         switch (event.key.keysym.sym) {
@@ -80,10 +81,28 @@ void Camera::handleInput(SDL_Event event) {
         }
     }
 
-    //std::cout << translationVec.z << "\n";
+    //process rotation w/ mouse input
 
-    //TODO process rotation w/ mouse input
+    //toggle rotation
+    if(event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
+       this->rotate = true;
+    else if(event.type == SDL_MOUSEBUTTONUP && event.button.button == SDL_BUTTON_LEFT)
+        this->rotate = false; 
 
-    //update view
+    // process rotation
+    if(event.type == SDL_MOUSEMOTION && this->rotate){
+        //update yaw and pitch values based on mouse movement
+        this->yaw += event.motion.xrel * MOUSE_SENSITIVITY;        
+        this->pitch += event.motion.yrel * MOUSE_SENSITIVITY;
+
+        // restrict pitch to relevant quadrants
+        if(this->pitch > M_PI/2)
+                this->pitch = M_PI/2;
+        else if(this->pitch < -M_PI/2)
+                this->pitch = -M_PI/2;
+
+        //update camera direction based on yaw and pitch
+        this->cameraDirection = glm::normalize(glm::vec3((sin(yaw)*cos(pitch)),(sin(pitch)),(cos(yaw))));
+    }
 
 }
