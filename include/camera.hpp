@@ -13,16 +13,20 @@ public:
         ~Camera();
 
         //setup matrices (or equivalent)
-        void setUpMatrices();
+        void update();
 
         //setters for model, view, perspective
 
         //input hamdling - handleInput(event e)? - later check type enum for behavior
-
-        // update / render function - called every frame, changes pos for rendering
+        void handleInput(SDL_Event event);
 
 private:
     Shader* shaderPtr;
+    glm::mat4 model;
+    glm::vec3 cameraPosition;
+    glm::vec3 cameraDirection;
+    glm::vec3 cameraUp;
+    glm::mat4 projection;
 
 };
 

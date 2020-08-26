@@ -160,7 +160,7 @@ void render(){
         glDepthFunc(GL_LEQUAL);
 	glClear(GL_DEPTH_BUFFER_BIT | GL_COLOR_BUFFER_BIT);
 
-        //enable colors
+        //enable positions and colors
         glEnableVertexAttribArray(positionAttributeIndex);
         glEnableVertexAttribArray(colorAttributeIndex);
 
@@ -195,7 +195,7 @@ int main(int argc, char *argv[]){
                 return -1;
 
         //camera = Camera();
-        camera.setUpMatrices();
+        camera.update();
 
         //render square
         render();
@@ -206,14 +206,21 @@ int main(int argc, char *argv[]){
 
                 //Process input
                 SDL_Event event;
-
                 while(SDL_PollEvent(&event)){
 
                         //exit
                         if(event.type == SDL_QUIT)
                                 loop = false;
-
+                        else
+                            //TODO make generic for multiple input handlers - use entity/component architecture, or
+                            // superclass - probably in a Scene object
+                            camera.handleInput(event);
                 }
+
+                //Update camera
+                //TODO handle generically, probably within a scene
+                camera.update();
+                render(); //models should probably render themselves
 
                 SDL_Delay( 16 );
         }
