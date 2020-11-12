@@ -9,6 +9,7 @@
 
 // library imports
 #include "../include/camera.hpp"
+#include "../include/model.hpp"
 
 #define GL3_PROTOTYPES 1
 

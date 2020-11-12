@@ -1,4 +1,4 @@
-# This makefile compiles the demo programs in the demoSrc folder
+# This makefile compiles the demo programs in the demos folder
 # Setup -----------------------------------------------------------------------
 
 #Compiler Setup
@@ -13,18 +13,18 @@ LDFLAGS += `sdl2-config --libs` -lGL -lGLEW -lm
 
 # setup output directories
 COMPDIR = bin
-OUTDIR = demos
+OUTDIR = executeables
 
 _PROG = cube
 PROG = $(patsubst %,$(OUTDIR)/%,$(_PROG))
 
-_OBJS += cube.o camera.o
-OBJS = $(patsubst %,$(COMPDIR)/%,$(_OBJS))
+_OBJS += camera cube
+OBJS = $(patsubst %,$(COMPDIR)/%.o,$(_OBJS))
 
 # look for souces files in the following directories
 SEARCHPATH += src
 SEARCHPATH += include
-SEARCHPATH += demoSrc
+SEARCHPATH += demos
 vpath %.cpp $(SEARCHPATH)
 vpath %.h $(SEARCHPATH)
 
@@ -32,12 +32,12 @@ vpath %.h $(SEARCHPATH)
 # top-level rule to create the programs
 all: $(PROG)
 
-# linking the program.
+# linking the program. 
 $(PROG): $(OBJS)
 	@mkdir -p $(OUTDIR)
 	$(CC) -o $@ $(OBJS) $(LDFLAGS)
 
-# compiling other source files.
+# compiling other source files. (Uses contents of OBJS, restated for pattern sub)
 $(COMPDIR)/%.o: %.cpp 
 	@mkdir -p $(COMPDIR)
 	$(CC) $(CXXFLAGS) -c -o $@ $<
